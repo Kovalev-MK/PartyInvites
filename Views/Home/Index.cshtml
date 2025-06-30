@@ -1,0 +1,22 @@
+﻿@{
+}
+<head>
+    <title>
+      Index
+    </title>
+</head>
+<body>
+  <div>
+    <h1>
+    Hello world (from the index)
+    </h1>
+    Hour: @ViewBag.Hour
+    Minute: @ViewBag.Minute
+    Sec: @ViewBag.Second
+    <p>
+      We're going to have an exciting party.<br />
+      (To do: sell it better. Add pictures or something.)
+    </p>
+    @Html.ActionLink("RSVP Now", "RsvpForm");
+  </div>
+</body>

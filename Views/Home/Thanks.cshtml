@@ -1,0 +1,56 @@
+﻿@using System.Net.Mail
+@using System.Net
+@model PartyInvites.Models.GuestResponse
+
+@{
+  try
+  {
+    var sender = new MailAddress("sender@test.com");
+    var receiver = new MailAddress(Model.Email);
+
+    using (var message = new MailMessage(sender, receiver))
+    using (var smtpClient = new SmtpClient())
+    {
+      message.Subject = "Party invite";
+      message.Body = "It's greate that you're coming.";
+
+      smtpClient.Host = "localhost";
+      smtpClient.Port = 86;
+      smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+      smtpClient.UseDefaultCredentials = true;
+      smtpClient.Credentials = new NetworkCredential(sender.Address, "test123");
+      smtpClient.Send(message);
+    }
+  }
+  catch (Exception)
+  {
+    @:
+    <b>Sorry - we couldn't send the email to confirm your RSVP.</b>
+  }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Thanks</title>
+</head>
+<body>
+<div>
+    <h1>Thank you, @Model.Name!</h1>
+    @if (Model.WillAttend == true)
+    {
+      @:It's great that you're coming. The drinks are already in the fridge!
+    }
+    else
+    {
+      @:Sorry to hear that you can't make it, but thanks for letting us know.
+    }
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
+</body>
+</html>
